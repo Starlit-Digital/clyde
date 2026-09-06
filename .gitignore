@@ -5,3 +5,6 @@ build/
 bin/
 coverage.out
 *.test
+
+# Local developer compile output
+/.build/

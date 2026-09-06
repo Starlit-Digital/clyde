@@ -38,10 +38,28 @@ It is intentionally conservative:
 - The default NotebookLM backend is the pinned `notebooklm-mcp@2.0.0` MCP server
   over local stdio.
 
+## Local developer installation
+
+```sh
+make build                       # compile and install ~/.local/bin/clyde
+make compile                     # compile only to .build/clyde (CI/cross-builds)
+make build PREFIX="$HOME/.local" # explicit installation prefix
+```
+
+`make install` is equivalent to `make build`. Put `$HOME/.local/bin` before
+Homebrew on PATH. The installed executable is copied out of the checkout, so
+moving the source repo does not break it. `scripts/build-local.sh` stages builds,
+rejects cross-architecture installation, and retains previous installs under
+`$HOME/.local/share/clyde/installs/`. The current `install-info.txt` in that tool's
+share directory records source path, commit, dirty state, Go version, and SHA-256.
+Raw `go build` and release/CI scripts remain compile/package-only.
+Run `python3 scripts/test-local-install.py` for isolated installer regression checks.
+
+
 ## Build
 
 ```bash
-go build -o bin/clyde ./cmd/clyde
+make build
 ```
 
 Run tests:
@@ -80,8 +98,7 @@ Use this procedure for every Clyde release and performance pass:
 7. Keep GitHub workflow changes local-only and repo-controlled. Before changing
    workflows, run `.github/scripts/check-github-policy.sh` and follow
    `.github/WORKFLOW_POLICY.md`.
-8. Rebuild the local global install after the release when this workstation
-   needs the new `clyde` binary.
+8. Run `make build` to refresh the local install when this workstation needs the new `clyde` binary.
 
 ## Install
 
