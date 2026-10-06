@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Default agent context to the smaller compact JSON/GCF representation, with
+  explicit format overrides and automatic report output via `--format auto`.
+- Add `agent --dry-run` to inspect the exact prompt without contacting Ollama.
+- Add local `gcf encode`, `gcf decode`, and `gcf stats` commands with bounded
+  input and comparisons against compact JSON; reject duplicate JSON keys.
+
+- Add optional GCF generic-profile output to `preview` and `scan-report`, and
+  `agent --context-format gcf` with valid encoding under the prompt budget.
+- Document Ollama and NotebookLM text compatibility and add round-trip, CLI,
+  escaping, integer precision, truncation, and mock Ollama transport tests.
+
 ## v1.0.2 - 2026-09-04
 
 - Fix release publication after the hardened checkout removes the Git remote.

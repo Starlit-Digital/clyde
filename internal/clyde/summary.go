@@ -1,7 +1,6 @@
 package clyde
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"strings"
@@ -42,19 +41,19 @@ func printSummary(out io.Writer, result ScanResult, chunkCount int, flags scanFl
 }
 
 func printPreviewJSON(out io.Writer, result ScanResult, chunkCount int, flags scanFlags) error {
+	return printStructured(out, previewData(result, chunkCount, flags), false)
+}
+
+func previewData(result ScanResult, chunkCount int, flags scanFlags) map[string]any {
 	files := make([]map[string]any, 0, len(result.Files))
 	for _, file := range result.Files {
-		files = append(files, map[string]any{
-			"path":   file.Rel,
-			"size":   file.Size,
-			"sha256": file.SHA256,
-		})
+		files = append(files, map[string]any{"path": file.Rel, "size": file.Size, "sha256": file.SHA256})
 	}
 	skips := make([]map[string]any, 0, len(result.Skips))
 	for _, skip := range result.Skips {
 		skips = append(skips, map[string]any{"path": skip.Path, "reason": skip.Reason})
 	}
-	data, err := json.MarshalIndent(map[string]any{
+	return map[string]any{
 		"repo":            result.Repo,
 		"included_files":  len(result.Files),
 		"skipped_files":   len(result.Skips),
@@ -67,10 +66,5 @@ func printPreviewJSON(out io.Writer, result ScanResult, chunkCount int, flags sc
 		"exclude_folders": []string(flags.excludeFolder),
 		"files":           files,
 		"skips":           skips,
-	}, "", "  ")
-	if err != nil {
-		return err
 	}
-	fmt.Fprintln(out, string(data))
-	return nil
 }

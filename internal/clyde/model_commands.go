@@ -148,11 +148,16 @@ func cmdAgent(args []string, stdin io.Reader, out io.Writer) error {
 	noStream := fs.Bool("no-stream", false, "wait for the full response before printing")
 	promptFile := fs.String("prompt-file", "", "read feedback prompt from file")
 	readStdin := fs.Bool("stdin", false, "read feedback prompt from stdin")
+	dryRun := fs.Bool("dry-run", false, "print the prepared prompt without contacting Ollama")
+	contextFormat := fs.String("context-format", "auto", "repository context format: auto (smaller JSON/GCF), json, gcf, or text")
 	allowRemote := fs.Bool("allow-remote-ollama", false, "allow sending scanned source context to a non-local Ollama URL")
 	addScanFlags(fs, &flags)
-	boolFlags := map[string]bool{"no-stream": true, "stdin": true, "allow-remote-ollama": true, "allow-filesystem-fallback": true}
+	boolFlags := map[string]bool{"dry-run": true, "no-stream": true, "stdin": true, "allow-remote-ollama": true, "allow-filesystem-fallback": true}
 	if err := fs.Parse(interspersedArgs(args, boolFlags)); err != nil {
 		return err
+	}
+	if *contextFormat != "text" && *contextFormat != "gcf" && *contextFormat != "json" && *contextFormat != "auto" {
+		return errf("--context-format must be auto, json, gcf, or text")
 	}
 	if fs.NArg() < 1 {
 		return errf("agent requires REPO and optional feedback prompt")
@@ -169,7 +174,7 @@ func cmdAgent(args []string, stdin io.Reader, out io.Writer) error {
 	if err := validateNumCtxFlag(*numCtx); err != nil {
 		return err
 	}
-	if !*allowRemote && !isLocalOllamaURL(*ollamaURL) {
+	if !*dryRun && !*allowRemote && !isLocalOllamaURL(*ollamaURL) {
 		return errf("agent refuses to send scanned source to non-local Ollama URL; use --allow-remote-ollama to override")
 	}
 	if err := validateScanFlags(flags); err != nil {
@@ -183,6 +188,20 @@ func cmdAgent(args []string, stdin io.Reader, out io.Writer) error {
 	if err != nil {
 		return err
 	}
+	var prompt string
+	opts := AgentPromptOptions{Task: task, MaxContextChars: *maxContext}
+	if *contextFormat != "text" {
+		prompt, err = buildStructuredAgentPrompt(result, chunks, opts, *contextFormat)
+		if err != nil {
+			return err
+		}
+	} else {
+		prompt = BuildAgentPrompt(result, chunks, opts)
+	}
+	if *dryRun {
+		_, err := io.WriteString(out, prompt)
+		return err
+	}
 	client := NewOllamaClient(*ollamaURL, time.Duration(*timeout*float64(time.Second)))
 	models, err := client.ListModels(context.Background())
 	if err != nil {
@@ -192,10 +211,6 @@ func cmdAgent(args []string, stdin io.Reader, out io.Writer) error {
 	if err != nil {
 		return err
 	}
-	prompt := BuildAgentPrompt(result, chunks, AgentPromptOptions{
-		Task:            task,
-		MaxContextChars: *maxContext,
-	})
 	fmt.Fprintf(out, "Clyde agent using local model: %s\n", selected)
 	fmt.Fprintf(out, "Included files: %d, chunks: %d, prompt chars: %d\n\n", len(result.Files), len(chunks), len(prompt))
 	response, err := client.GenerateWithOptions(context.Background(), GenerateOptions{

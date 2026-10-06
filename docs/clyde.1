@@ -68,12 +68,20 @@ Show, initialize, or print the Clyde configuration path.
 clyde config {show|init|path}
 .fi
 .TP
+.B gcf
+Convert JSON and GCF locally, or compare GCF size against compact JSON.
+.br
+.B Usage
+.nf
+clyde gcf {encode|decode|stats} [FILE|\-] [\-\-json (stats only)]
+.fi
+.TP
 .B preview
 Report included and skipped repository files before bundling or upload. Git repositories fail closed if Git\-aware discovery fails unless \-\-allow\-filesystem\-fallback is explicit.
 .br
 .B Usage
 .nf
-clyde preview REPO [scan flags] [\-\-json]
+clyde preview REPO [scan flags] [\-\-format text|json|gcf|auto] [\-\-json|\-\-gcf]
 .fi
 .TP
 .B scan\-report
@@ -81,7 +89,7 @@ Summarize repository scan shape with largest files, extensions, skip reasons, ch
 .br
 .B Usage
 .nf
-clyde scan\-report REPO [scan flags] [\-\-json] [\-\-top N]
+clyde scan\-report REPO [scan flags] [\-\-format text|json|gcf|auto] [\-\-json|\-\-gcf] [\-\-top N]
 .fi
 .TP
 .B bundle
@@ -150,11 +158,11 @@ clyde ask [flags] PROMPT
 .fi
 .TP
 .B agent
-Scan repository context and ask a local model for feedback.
+Scan repository context and ask a local model for feedback, or inspect the prepared prompt with \-\-dry\-run.
 .br
 .B Usage
 .nf
-clyde agent REPO [scan flags] [PROMPT]
+clyde agent REPO [\-\-context\-format auto|json|gcf|text] [\-\-dry\-run] [scan flags] [PROMPT]
 .fi
 .TP
 .B config init

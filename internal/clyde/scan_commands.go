@@ -1,7 +1,6 @@
 package clyde
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -21,9 +20,21 @@ func cmdPreview(args []string, out io.Writer) error {
 	fs.SetOutput(out)
 	showFiles := fs.Int("show-files", 20, "show first N included files")
 	showSkips := fs.Int("show-skips", 50, "show first N skipped files")
+	format := fs.String("format", "text", "report format: text, json, gcf, or auto (smaller JSON/GCF)")
+	gcfOut := fs.Bool("gcf", false, "print machine-readable GCF generic profile")
 	jsonOut := fs.Bool("json", false, "print machine-readable JSON summary")
 	addScanFlags(fs, &flags)
-	if err := fs.Parse(interspersedArgs(args, map[string]bool{"json": true, "allow-filesystem-fallback": true})); err != nil {
+	if err := fs.Parse(interspersedArgs(args, map[string]bool{"json": true, "gcf": true, "allow-filesystem-fallback": true})); err != nil {
+		return err
+	}
+	explicitFormat := false
+	fs.Visit(func(f *flag.Flag) {
+		if f.Name == "format" {
+			explicitFormat = true
+		}
+	})
+	selectedFormat, err := reportFormat(*format, *jsonOut, *gcfOut, explicitFormat)
+	if err != nil {
 		return err
 	}
 	if fs.NArg() != 1 {
@@ -36,8 +47,8 @@ func cmdPreview(args []string, out io.Writer) error {
 	if err != nil {
 		return err
 	}
-	if *jsonOut {
-		return printPreviewJSON(out, result, len(chunks), flags)
+	if selectedFormat != "text" {
+		return printReportFormat(out, previewData(result, len(chunks), flags), selectedFormat)
 	}
 	printSummary(out, result, len(chunks), flags)
 	if len(result.Files) > 0 && *showFiles > 0 {
@@ -76,10 +87,22 @@ func cmdScanReport(args []string, out io.Writer) error {
 	flags := scanFlagsFromConfig(cfg)
 	fs := flag.NewFlagSet("scan-report", flag.ContinueOnError)
 	fs.SetOutput(out)
+	format := fs.String("format", "text", "report format: text, json, gcf, or auto (smaller JSON/GCF)")
+	gcfOut := fs.Bool("gcf", false, "print machine-readable GCF generic profile")
 	jsonOut := fs.Bool("json", false, "print machine-readable scan report")
 	top := fs.Int("top", 10, "number of largest files to include")
 	addScanFlags(fs, &flags)
-	if err := fs.Parse(interspersedArgs(args, map[string]bool{"json": true, "allow-filesystem-fallback": true})); err != nil {
+	if err := fs.Parse(interspersedArgs(args, map[string]bool{"json": true, "gcf": true, "allow-filesystem-fallback": true})); err != nil {
+		return err
+	}
+	explicitFormat := false
+	fs.Visit(func(f *flag.Flag) {
+		if f.Name == "format" {
+			explicitFormat = true
+		}
+	})
+	selectedFormat, err := reportFormat(*format, *jsonOut, *gcfOut, explicitFormat)
+	if err != nil {
 		return err
 	}
 	if fs.NArg() != 1 {
@@ -96,13 +119,8 @@ func cmdScanReport(args []string, out io.Writer) error {
 		return err
 	}
 	report := buildScanReport(result, len(chunks), flags, *top)
-	if *jsonOut {
-		data, err := json.MarshalIndent(report, "", "  ")
-		if err != nil {
-			return err
-		}
-		fmt.Fprintln(out, string(data))
-		return nil
+	if selectedFormat != "text" {
+		return printReportFormat(out, report, selectedFormat)
 	}
 	printScanReport(out, report)
 	return nil

@@ -21,6 +21,7 @@ func printHelp(out io.Writer) {
 	fmt.Fprintln(out, "  clyde completion nushell > clyde-completions.nu")
 	fmt.Fprintln(out, "  clyde doctor . --json")
 	fmt.Fprintln(out, "  clyde scan-report . --json")
+	fmt.Fprintln(out, "  clyde scan-report . --gcf")
 	fmt.Fprintln(out, "  clyde models")
 	fmt.Fprintln(out, "  clyde config show")
 	fmt.Fprintln(out, "  clyde ask --model qwen2.5-coder:7b --stdin")
@@ -73,6 +74,9 @@ func cmdHelp(args []string, stdin io.Reader, out, errOut io.Writer) error {
 		return nil
 	case "scan-report":
 		printScanReportHelp(out)
+		return nil
+	case "gcf":
+		printGCFHelp(out)
 		return nil
 	case "config":
 		printConfigHelp(out)
@@ -132,13 +136,14 @@ func printDoctorHelp(out io.Writer) {
 }
 
 func printScanReportHelp(out io.Writer) {
-	fmt.Fprintln(out, "usage: clyde scan-report REPO [scan flags] [--json] [--top N]")
+	fmt.Fprintln(out, "usage: clyde scan-report REPO [scan flags] [--format text|json|gcf|auto] [--json|--gcf] [--top N]")
 	fmt.Fprintln(out)
 	fmt.Fprintln(out, "Summarize repository scan shape without writing bundles or uploading data.")
 	fmt.Fprintln(out)
 	fmt.Fprintln(out, "examples:")
 	fmt.Fprintln(out, "  clyde scan-report .")
 	fmt.Fprintln(out, "  clyde scan-report . --json")
+	fmt.Fprintln(out, "  clyde scan-report . --gcf")
 	fmt.Fprintln(out, "  clyde scan-report . --include \"internal/**/*.go\" --top 20")
 }
 

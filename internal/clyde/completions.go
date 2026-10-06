@@ -11,7 +11,7 @@ _clyde_completion() {
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
-  commands="about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent"
+  commands="about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent"
 
   if [[ ${COMP_CWORD} -eq 1 ]]; then
     COMPREPLY=( $(compgen -W "${commands}" -- "${cur}") )
@@ -23,7 +23,7 @@ _clyde_completion() {
       COMPREPLY=( $(compgen -W "bash zsh fish powershell pwsh elvish nushell nu xonsh tcsh clink yash oil osh ysh" -- "${cur}") )
       ;;
     help)
-      COMPREPLY=( $(compgen -W "about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent --json" -- "${cur}") )
+      COMPREPLY=( $(compgen -W "about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent --json" -- "${cur}") )
       ;;
     doctor)
       COMPREPLY=( $(compgen -W "--json --ollama-timeout --help" -- "${cur}") )
@@ -31,11 +31,14 @@ _clyde_completion() {
     config)
       COMPREPLY=( $(compgen -W "path show init" -- "${cur}") )
       ;;
+    gcf)
+      COMPREPLY=( $(compgen -W "encode decode stats --json --help" -- "${cur}") )
+      ;;
     preview)
-      COMPREPLY=( $(compgen -W "--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --show-files --show-skips --json --help" -- "${cur}") )
+      COMPREPLY=( $(compgen -W "--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --format --show-files --show-skips --gcf --json --help" -- "${cur}") )
       ;;
     scan-report)
-      COMPREPLY=( $(compgen -W "--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --json --top --help" -- "${cur}") )
+      COMPREPLY=( $(compgen -W "--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --format --gcf --json --top --help" -- "${cur}") )
       ;;
     bundle)
       COMPREPLY=( $(compgen -W "verify --out --subject --book-title --force --secret-scan-command --require-secret-scan --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --help" -- "${cur}") )
@@ -53,7 +56,7 @@ _clyde_completion() {
       COMPREPLY=( $(compgen -W "--model --ollama-url --timeout --num-ctx --no-stream --prompt-file --stdin --help" -- "${cur}") )
       ;;
     agent)
-      COMPREPLY=( $(compgen -W "--model --ollama-url --timeout --max-context-chars --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --help" -- "${cur}") )
+      COMPREPLY=( $(compgen -W "--model --ollama-url --timeout --dry-run --context-format --max-context-chars --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --help" -- "${cur}") )
       ;;
     daemon)
       COMPREPLY=( $(compgen -W "--host --port --help" -- "${cur}") )
@@ -76,6 +79,8 @@ _clyde() {
     'doctor:check local Clyde environment'
     'tui:open the terminal UI'
     'config:manage Clyde config'
+    'gcf:convert JSON and GCF or compare byte sizes'
+    'scan-report:summarize repository scan shape'
     'preview:show files Clyde would scan'
     'bundle:write or verify digest-bound manifest.json and chunks.jsonl'
     'sync:upload verified bundle chunks to NotebookLM'
@@ -99,17 +104,18 @@ _clyde() {
     args)
       case $words[2] in
         completion) _values 'shell' bash zsh fish powershell pwsh elvish nushell nu xonsh tcsh clink yash oil osh ysh ;;
-        help) _values 'command' about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent --json ;;
+        help) _values 'command' about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent --json ;;
         doctor) _arguments '--json' '--ollama-timeout=[]' '--help' ;;
         config) _values 'config command' path show init ;;
-        preview) _arguments '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--show-files=[]' '--show-skips=[]' '--json' '--help' ;;
-        scan-report) _arguments '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--json' '--top=[]' '--help' ;;
+        gcf) _arguments '1:operation:(encode decode stats)' '--json' '--help' ;;
+        preview) _arguments '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--format=[]' '--show-files=[]' '--show-skips=[]' '--gcf' '--json' '--help' ;;
+        scan-report) _arguments '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--format=[]' '--gcf' '--json' '--top=[]' '--help' ;;
         bundle) _arguments '1:subcommand:(verify)' '--out=[]' '--subject=[]' '--book-title=[]' '--force' '--secret-scan-command=[]' '--require-secret-scan' '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--help' ;;
         sync) _arguments '--notebook-id=[]' '--notebook-url=[]' '--approve-upload' '--dry-run' '--bundle=[]' '--approve-digest=[]' '--receipt=[]' '--resume' '--backend=[mcp or nlm]:backend:(mcp nlm)' '--mcp-command=[]' '--nlm-command=[]' '--delete-existing-sources' '--mcp-timeout=[]' '--status-url=[]' '--quiet-progress' '--job-id=[]' '--heartbeat-interval=[]' '--subject=[]' '--book-title=[]' '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--help' ;;
         receipt) _arguments '1:command:(status)' '--json' '--help' ;;
         models) _arguments '--ollama-url=[]' '--timeout=[]' '--json' '--help' ;;
         ask) _arguments '--model=[]' '--ollama-url=[]' '--timeout=[]' '--num-ctx=[]' '--no-stream' '--prompt-file=[]' '--stdin' '--help' ;;
-        agent) _arguments '--model=[]' '--ollama-url=[]' '--timeout=[]' '--max-context-chars=[]' '--num-ctx=[]' '--no-stream' '--prompt-file=[]' '--stdin' '--allow-remote-ollama' '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--help' ;;
+        agent) _arguments '--model=[]' '--ollama-url=[]' '--timeout=[]' '--dry-run' '--context-format=[]' '--max-context-chars=[]' '--num-ctx=[]' '--no-stream' '--prompt-file=[]' '--stdin' '--allow-remote-ollama' '--include=[]' '--exclude=[]' '--exclude-folder=[]' '--max-file-bytes=[]' '--max-chunk-chars=[]' '--allow-filesystem-fallback' '--help' ;;
         daemon) _arguments '--host=[]' '--port=[]' '--help' ;;
         status) _arguments '--host=[]' '--port=[]' '--job-id=[]' '--json' '--watch' '--interval=[]' '--help' ;;
       esac
@@ -121,9 +127,9 @@ _clyde "$@"
 
 const fishCompletionScript = `# fish completion for clyde
 complete -c clyde -f
-complete -c clyde -n "__fish_use_subcommand" -a "about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent"
+complete -c clyde -n "__fish_use_subcommand" -a "about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent"
 complete -c clyde -n "__fish_seen_subcommand_from completion" -a "bash zsh fish powershell pwsh elvish nushell nu xonsh tcsh clink yash oil osh ysh"
-complete -c clyde -n "__fish_seen_subcommand_from help" -a "about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent --json"
+complete -c clyde -n "__fish_seen_subcommand_from help" -a "about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent --json"
 complete -c clyde -n "__fish_seen_subcommand_from doctor" -l json
 complete -c clyde -n "__fish_seen_subcommand_from doctor" -l ollama-timeout -r
 complete -c clyde -n "__fish_seen_subcommand_from config" -a "path show init"
@@ -135,6 +141,12 @@ complete -c clyde -n "__fish_seen_subcommand_from preview" -l max-chunk-chars -r
 complete -c clyde -n "__fish_seen_subcommand_from preview" -l allow-filesystem-fallback
 complete -c clyde -n "__fish_seen_subcommand_from preview" -l show-files -r
 complete -c clyde -n "__fish_seen_subcommand_from preview" -l show-skips -r
+complete -c clyde -n "__fish_seen_subcommand_from preview scan-report" -l gcf
+complete -c clyde -n "__fish_seen_subcommand_from agent" -l context-format -r -a "auto json gcf text"
+complete -c clyde -n "__fish_seen_subcommand_from agent" -l dry-run
+complete -c clyde -n "__fish_seen_subcommand_from preview scan-report" -l format -r -a "text json gcf auto"
+complete -c clyde -n "__fish_seen_subcommand_from gcf" -a "encode decode stats"
+complete -c clyde -n "__fish_seen_subcommand_from gcf" -l json
 complete -c clyde -n "__fish_seen_subcommand_from preview" -l json
 complete -c clyde -n "__fish_seen_subcommand_from scan-report" -l include -r
 complete -c clyde -n "__fish_seen_subcommand_from scan-report" -l exclude -r
@@ -192,7 +204,7 @@ Register-ArgumentCompleter -Native -CommandName clyde -ScriptBlock {
   param($wordToComplete, $commandAst, $cursorPosition)
 
   $commands = @(
-    'about', 'help', 'completion', 'doctor', 'tui', 'config', 'preview', 'scan-report', 'bundle',
+    'about', 'help', 'completion', 'doctor', 'tui', 'config', 'gcf', 'preview', 'scan-report', 'bundle',
     'sync', 'receipt', 'daemon', 'status', 'book', 'models', 'ask', 'agent'
   )
   $commandDescriptions = @{
@@ -214,19 +226,20 @@ Register-ArgumentCompleter -Native -CommandName clyde -ScriptBlock {
   }
   $subcommands = @{
 		completion = @('bash', 'zsh', 'fish', 'powershell', 'pwsh', 'elvish', 'nushell', 'nu', 'xonsh', 'tcsh', 'clink', 'yash', 'oil', 'osh', 'ysh')
-    help = @('about', 'help', 'completion', 'doctor', 'tui', 'config', 'preview', 'scan-report', 'bundle', 'sync', 'receipt', 'daemon', 'status', 'book', 'models', 'ask', 'agent', '--json')
+    help = @('about', 'help', 'completion', 'doctor', 'tui', 'config', 'gcf', 'preview', 'scan-report', 'bundle', 'sync', 'receipt', 'daemon', 'status', 'book', 'models', 'ask', 'agent', '--json')
     config = @('path', 'show', 'init')
+    gcf = @('encode', 'decode', 'stats', '--json', '--help')
   }
   $flags = @{
-    preview = @('--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--show-files', '--show-skips', '--json', '--help')
-    'scan-report' = @('--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--json', '--top', '--help')
+    preview = @('--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--format', '--show-files', '--show-skips', '--gcf', '--json', '--help')
+    'scan-report' = @('--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--format', '--gcf', '--json', '--top', '--help')
     doctor = @('--json', '--ollama-timeout', '--help')
     bundle = @('verify', '--out', '--subject', '--book-title', '--force', '--secret-scan-command', '--require-secret-scan', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help')
     sync = @('--notebook-id', '--notebook-url', '--approve-upload', '--dry-run', '--bundle', '--approve-digest', '--receipt', '--resume', '--backend', '--mcp-command', '--nlm-command', '--delete-existing-sources', '--mcp-timeout', '--status-url', '--quiet-progress', '--job-id', '--heartbeat-interval', '--subject', '--book-title', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help')
     receipt = @('status', '--json', '--help')
     models = @('--ollama-url', '--timeout', '--json', '--help')
     ask = @('--model', '--ollama-url', '--timeout', '--num-ctx', '--no-stream', '--prompt-file', '--stdin', '--help')
-    agent = @('--model', '--ollama-url', '--timeout', '--max-context-chars', '--num-ctx', '--no-stream', '--prompt-file', '--stdin', '--allow-remote-ollama', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help')
+    agent = @('--model', '--ollama-url', '--timeout', '--dry-run', '--context-format', '--max-context-chars', '--num-ctx', '--no-stream', '--prompt-file', '--stdin', '--allow-remote-ollama', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help')
     daemon = @('--host', '--port', '--help')
     status = @('--host', '--port', '--job-id', '--json', '--watch', '--interval', '--help')
   }
@@ -262,20 +275,21 @@ Register-ArgumentCompleter -Native -CommandName clyde -ScriptBlock {
 
 const elvishCompletionScript = `# Elvish completion for clyde
 edit:completion:arg-completer[clyde] = [@words]{
-  var commands = [about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent]
+  var commands = [about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent]
   var shells = [bash zsh fish powershell pwsh elvish nushell nu xonsh tcsh clink yash oil osh ysh]
   var config-subcommands = [path show init]
   var common-scan-flags = [--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback]
   var flags = [
-    &preview=[--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --show-files --show-skips --json --help]
-    &scan-report=[--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --json --top --help]
+    &gcf=[encode decode stats --json --help]
+    &preview=[--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --format --show-files --show-skips --gcf --json --help]
+    &scan-report=[--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --format --gcf --json --top --help]
     &doctor=[--json --ollama-timeout --help]
     &bundle=[verify --out --subject --book-title --force --secret-scan-command --require-secret-scan --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --help]
     &sync=[--notebook-id --notebook-url --approve-upload --dry-run --bundle --approve-digest --receipt --resume --backend --mcp-command --nlm-command --delete-existing-sources --mcp-timeout --status-url --quiet-progress --job-id --heartbeat-interval --subject --book-title --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --help]
     &receipt=[status --json --help]
     &models=[--ollama-url --timeout --json --help]
     &ask=[--model --ollama-url --timeout --num-ctx --no-stream --prompt-file --stdin --help]
-    &agent=[--model --ollama-url --timeout --max-context-chars --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --help]
+    &agent=[--model --ollama-url --timeout --dry-run --context-format --max-context-chars --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --help]
     &daemon=[--host --port --help]
     &status=[--host --port --job-id --json --watch --interval --help]
   ]
@@ -286,7 +300,7 @@ edit:completion:arg-completer[clyde] = [@words]{
   } elif (== $words[1] completion) {
     set choices = $shells
   } elif (== $words[1] help) {
-    set choices = [about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent --json]
+    set choices = [about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent --json]
   } elif (== $words[1] config) {
     set choices = $config-subcommands
   } elif (has-key $flags $words[1]) {
@@ -304,7 +318,7 @@ edit:completion:arg-completer[clyde] = [@words]{
 
 const nushellCompletionScript = `# Nushell completion for clyde
 def "nu-complete clyde commands" [] {
-  [about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent]
+  [about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent]
 }
 
 def "nu-complete clyde shells" [] {
@@ -330,6 +344,9 @@ extern "clyde" [
   --show-files: int
   --show-skips: int
   --top: int
+  --gcf
+  --format: string
+  --context-format: string
   --json
   --ollama-timeout: int
   --out: string
@@ -369,7 +386,7 @@ const xonshCompletionScript = `# Xonsh completion for clyde
 from xonsh.completers.completer import add_one_completer
 
 _CLYDE_COMMANDS = {
-    'about', 'help', 'completion', 'doctor', 'tui', 'config', 'preview', 'scan-report', 'bundle',
+    'about', 'help', 'completion', 'doctor', 'tui', 'config', 'gcf', 'preview', 'scan-report', 'bundle',
     'sync', 'receipt', 'daemon', 'status', 'book', 'models', 'ask', 'agent',
 }
 _CLYDE_SHELLS = {
@@ -377,15 +394,16 @@ _CLYDE_SHELLS = {
     'xonsh', 'tcsh', 'clink', 'yash', 'oil', 'osh', 'ysh',
 }
 _CLYDE_FLAGS = {
-    'preview': {'--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--show-files', '--show-skips', '--json', '--help'},
-    'scan-report': {'--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--json', '--top', '--help'},
+    'gcf': {'encode', 'decode', 'stats', '--json', '--help'},
+    'preview': {'--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--format', '--show-files', '--show-skips', '--gcf', '--json', '--help'},
+    'scan-report': {'--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--format', '--gcf', '--json', '--top', '--help'},
     'doctor': {'--json', '--ollama-timeout', '--help'},
     'bundle': {'--out', '--subject', '--book-title', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help'},
     'sync': {'--notebook-id', '--notebook-url', '--approve-upload', '--dry-run', '--backend', '--mcp-command', '--nlm-command', '--delete-existing-sources', '--mcp-timeout', '--status-url', '--quiet-progress', '--job-id', '--heartbeat-interval', '--subject', '--book-title', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help'},
     'receipt': {'status', '--json', '--help'},
     'models': {'--ollama-url', '--timeout', '--json', '--help'},
     'ask': {'--model', '--ollama-url', '--timeout', '--num-ctx', '--no-stream', '--prompt-file', '--stdin', '--help'},
-    'agent': {'--model', '--ollama-url', '--timeout', '--max-context-chars', '--num-ctx', '--no-stream', '--prompt-file', '--stdin', '--allow-remote-ollama', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help'},
+    'agent': {'--model', '--ollama-url', '--timeout', '--dry-run', '--context-format', '--max-context-chars', '--num-ctx', '--no-stream', '--prompt-file', '--stdin', '--allow-remote-ollama', '--include', '--exclude', '--exclude-folder', '--max-file-bytes', '--max-chunk-chars', '--allow-filesystem-fallback', '--help'},
     'daemon': {'--host', '--port', '--help'},
     'status': {'--host', '--port', '--job-id', '--json', '--watch', '--interval', '--help'},
 }
@@ -414,17 +432,18 @@ add_one_completer('clyde', _clyde_completer, 'start')
 
 const tcshCompletionScript = `# tcsh completion for clyde
 complete clyde \
-  'p/1/(about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent)/' \
+  'p/1/(about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent)/' \
   'n/completion/(bash zsh fish powershell pwsh elvish nushell nu xonsh tcsh clink yash oil osh ysh)/' \
-  'n/help/(about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent --json)/' \
+  'n/help/(about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent --json)/' \
   'n/config/(path show init)/' \
+  'n/gcf/(encode decode stats)/' \
   'n/--backend/(mcp nlm)/' \
-  'c/--/(--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --show-files --show-skips --json --top --ollama-timeout --out --subject --book-title --force --secret-scan-command --require-secret-scan --notebook-id --notebook-url --approve-upload --dry-run --bundle --approve-digest --receipt --resume --backend --mcp-command --nlm-command --delete-existing-sources --mcp-timeout --status-url --quiet-progress --job-id --heartbeat-interval --model --ollama-url --timeout --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --host --port --watch --interval --help)/'
+  'c/--/(--include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --format --show-files --show-skips --gcf --json --top --ollama-timeout --out --subject --book-title --force --secret-scan-command --require-secret-scan --notebook-id --notebook-url --approve-upload --dry-run --bundle --approve-digest --receipt --resume --backend --mcp-command --nlm-command --delete-existing-sources --mcp-timeout --status-url --quiet-progress --job-id --heartbeat-interval --model --ollama-url --timeout --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --context-format --host --port --watch --interval --help)/'
 `
 
 const clinkCompletionScript = `-- Clink completion for clyde
 local commands = {
-  "about", "help", "completion", "doctor", "tui", "config", "preview", "scan-report", "bundle",
+  "about", "help", "completion", "doctor", "tui", "config", "gcf", "preview", "scan-report", "bundle",
   "sync", "receipt", "daemon", "status", "book", "models", "ask", "agent"
 }
 local shells = {
@@ -433,7 +452,7 @@ local shells = {
 }
 local flags = {
   "--include", "--exclude", "--exclude-folder", "--max-file-bytes", "--max-chunk-chars", "--allow-filesystem-fallback",
-  "--show-files", "--show-skips", "--json", "--top", "--out", "--subject",
+  "--show-files", "--show-skips", "--format", "--gcf", "--context-format", "--json", "--top", "--out", "--subject",
   "--book-title", "--notebook-id", "--notebook-url", "--approve-upload",
   "--backend", "--mcp-command", "--nlm-command", "--delete-existing-sources", "--dry-run",
   "--mcp-timeout", "--status-url", "--quiet-progress", "--job-id", "--heartbeat-interval", "--model",
@@ -455,7 +474,9 @@ parser:addarg({
     elseif command == "completion" then
       choices = shells
     elseif command == "help" then
-      choices = {"about", "help", "completion", "doctor", "tui", "config", "preview", "scan-report", "bundle", "sync", "receipt", "daemon", "status", "book", "models", "ask", "agent", "--json"}
+      choices = {"about", "help", "completion", "doctor", "tui", "config", "gcf", "preview", "scan-report", "bundle", "sync", "receipt", "daemon", "status", "book", "models", "ask", "agent", "--json"}
+    elseif command == "gcf" then
+      choices = {"encode", "decode", "stats", "--json", "--help"}
     elseif command == "config" then
       choices = {"path", "show", "init"}
     end
@@ -478,10 +499,11 @@ function completion//argument/clyde {
   local candidates
   case "$command:$previous" in
     completion:*) candidates="bash zsh fish powershell pwsh elvish nushell nu xonsh tcsh clink yash oil osh ysh" ;;
-    help:*) candidates="about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent --json" ;;
+    help:*) candidates="about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent --json" ;;
+    gcf:*) candidates="encode decode stats --json --help" ;;
     config:*) candidates="path show init" ;;
     *:--backend) candidates="mcp nlm" ;;
-    *) candidates="about help completion doctor tui config preview scan-report bundle sync receipt daemon status book models ask agent --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --show-files --show-skips --json --top --ollama-timeout --out --subject --book-title --force --secret-scan-command --require-secret-scan --notebook-id --notebook-url --approve-upload --dry-run --bundle --approve-digest --receipt --resume --backend --mcp-command --nlm-command --delete-existing-sources --mcp-timeout --status-url --quiet-progress --job-id --heartbeat-interval --model --ollama-url --timeout --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --host --port --watch --interval --help" ;;
+    *) candidates="about help completion doctor tui config gcf preview scan-report bundle sync receipt daemon status book models ask agent --include --exclude --exclude-folder --max-file-bytes --max-chunk-chars --allow-filesystem-fallback --format --show-files --show-skips --gcf --json --top --ollama-timeout --out --subject --book-title --force --secret-scan-command --require-secret-scan --notebook-id --notebook-url --approve-upload --dry-run --bundle --approve-digest --receipt --resume --backend --mcp-command --nlm-command --delete-existing-sources --mcp-timeout --status-url --quiet-progress --job-id --heartbeat-interval --model --ollama-url --timeout --num-ctx --no-stream --prompt-file --stdin --allow-remote-ollama --context-format --host --port --watch --interval --help" ;;
   esac
   for candidate in $candidates; do
     case "$candidate" in

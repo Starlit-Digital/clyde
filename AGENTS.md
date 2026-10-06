@@ -26,3 +26,16 @@ pre-existing working-tree changes. This repo may contain another task's edits.
   Other machines need `$HOME/.local/bin` on PATH. Do not assume the Mac helper exists.
 - Source dumps use the global `sourcedump` command; do not upload or publish source
   as part of building or installing.
+
+## Structured context formats
+
+- GCF reports and structured agent context use the pinned official Go SDK generic
+  profile. Read `docs/gcf.md` for compatibility and representation boundaries.
+- Preserve JSON field names and exact integers across report formats. Truncate
+  source text before GCF encoding, never serialized syntax, and retain the
+  existing digest-bound bundle/sync representation.
+- Agent context defaults to auto selection of the smaller compact JSON/GCF
+  representation; report output stays human-readable unless a format is selected.
+  Byte comparisons must not be described as token savings or model comprehension.
+- `agent --dry-run` must prepare the exact prompt without contacting Ollama;
+  conversion commands must remain bounded and local.

@@ -423,7 +423,7 @@ func TestHelpJSONPrintsCommandCatalog(t *testing.T) {
 	if err := json.Unmarshal(out.Bytes(), &payload); err != nil {
 		t.Fatal(err)
 	}
-	if payload.Product != productName || len(payload.Commands) != 21 {
+	if payload.Product != productName || len(payload.Commands) != 22 {
 		t.Fatalf("unexpected catalog: %#v", payload)
 	}
 	foundHelp := false

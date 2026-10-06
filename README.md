@@ -320,6 +320,35 @@ Machine-readable preview:
 clyde preview /path/to/repo --json
 ```
 
+Clyde supports JSON and GCF (Graph Compact Format) for structured context:
+
+```bash
+clyde scan-report . --format auto          # smaller compact JSON or GCF
+clyde preview . --gcf                     # force GCF output
+clyde agent . "Review this repository"    # automatically choose JSON or GCF
+clyde agent . --dry-run "Review this repo" # inspect the exact prompt locally
+clyde preview . --json | clyde gcf stats   # compare byte sizes locally
+clyde gcf encode report.json > report.gcf
+clyde gcf decode report.gcf > report.json
+```
+
+The agent defaults to `--context-format auto`, choosing the smaller complete
+JSON/GCF encoding within its prompt budget. Force `json`, `gcf`, or the original
+`text` context when needed. `agent --dry-run` prints only the prepared prompt and
+makes no Ollama requests. Source text is shortened before encoding, so serialized
+context remains valid.
+
+Reports remain human-readable by default. `--format auto` selects the smaller
+machine-readable representation; force `--json`, `--gcf`, or `--format json|gcf`
+when a consumer requires a fixed format. `--format`, `--gcf`, and `--json` are
+mutually exclusive. Selection and `gcf stats` use UTF-8 byte sizes, not token
+counts or a prediction of model comprehension. GCF conversion reads a file or
+stdin, runs entirely locally, and accepts up to 1 MiB of input.
+
+Ollama accepts GCF as prompt text. NotebookLM accepts pasted text and `.txt`
+sources, but does not document `.gcf` file support or GCF-specific interpretation.
+See [GCF support and compatibility](docs/gcf.md) for research sources and details.
+
 In Git repositories, Clyde uses `git ls-files -co --exclude-standard` from the
 worktree root so `.gitignore` and standard Git exclusions are honored even when
 you scan a subdirectory. If Git discovery fails, Clyde stops instead of falling
