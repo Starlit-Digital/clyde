@@ -1,6 +1,10 @@
 package clyde
 
-import "io"
+import (
+	"fmt"
+	"github.com/PayCal-Technologies/clyde/internal/toolbridge"
+	"io"
+)
 
 type registeredCommand struct {
 	Info commandInfo
@@ -9,6 +13,13 @@ type registeredCommand struct {
 
 func registeredCommands() []registeredCommand {
 	return []registeredCommand{
+		{Info: commandInfo{Name: "tools", Category: "Integration", Summary: "Discover companions and explicitly compose local reports.", Access: "Read-only planning; run writes a new output directory", Network: "Optional explicit peer feedback", Syntax: "clyde tools doctor|plan|run|identity|help", Examples: []string{"clyde tools doctor"}}, Run: func(args []string, stdin io.Reader, stdout, stderr io.Writer) error {
+			_, code := toolbridge.Handle(append([]string{"tools"}, args...), "clyde", productVersion, stdout, stderr)
+			if code != 0 {
+				return fmt.Errorf("tool workflow failed")
+			}
+			return nil
+		}},
 		{Info: commandInfo{Name: "about", Category: "Core", Summary: "Show Clyde product details and official links.", Access: "Read-only", Network: "None", Syntax: "clyde --about\nclyde about", Examples: []string{"clyde --about", "clyde about"}}, Run: func(args []string, stdin io.Reader, stdout, stderr io.Writer) error {
 			printAbout(stdout)
 			return nil

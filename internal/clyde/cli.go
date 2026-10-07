@@ -3,6 +3,7 @@ package clyde
 import (
 	"flag"
 	"fmt"
+	"github.com/PayCal-Technologies/clyde/internal/toolbridge"
 	"io"
 	"os"
 	"strings"
@@ -10,7 +11,7 @@ import (
 
 const (
 	productName        = "Clyde"
-	productVersion     = "1.0.2"
+	productVersion     = "1.1.0"
 	productDescription = "local repository review, bundling, and NotebookLM sync harness"
 	productHomeURL     = "https://paycaltech.com/clyde"
 	productHelpURL     = "https://paycaltech.com/clyde/help"
@@ -28,6 +29,9 @@ func Main(args []string, stdout, stderr io.Writer) int {
 }
 
 func MainWithInput(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
+	if handled, code := toolbridge.Handle(args, "clyde", productVersion, stdout, stderr); handled {
+		return code
+	}
 	if len(args) == 0 {
 		if file, ok := stdin.(*os.File); ok {
 			if stat, err := file.Stat(); err == nil && (stat.Mode()&os.ModeCharDevice) != 0 {

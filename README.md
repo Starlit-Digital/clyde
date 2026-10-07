@@ -9,7 +9,7 @@
 clyde is a small Go MCP-client harness for moving auditable repository source bundles
 into Google NotebookLM.
 
-Current version: `1.0.2`
+Current version: `1.1.0`
 
 Official resources:
 
@@ -633,3 +633,7 @@ clyde also applies several guardrails before data leaves the local machine:
 - clyde does not replace code review, CI, or secret scanning.
 - clyde does not expose an MCP server yet; it currently acts as an MCP client
   and local model harness.
+
+## Optional companion tools
+
+`clyde tools doctor` checks installations; `tools plan` previews workflows and `tools run` collects local reports in a new private directory. Normal commands continue to work without other Starlit tools. AI feedback requires a separate explicit report/peer invocation. See [CLI integration](docs/TOOL_INTEGRATION.md) for recipes, limits and snapshot ownership.
