@@ -1,6 +1,6 @@
 # Security Policy
 
-Please report suspected security issues privately. Clyde scans repositories,
+Please report suspected security issues privately. clyde scans repositories,
 prepares local source bundles, can call local Ollama endpoints, and can upload
 approved bundles to NotebookLM, so reports should include command execution,
 source disclosure, prompt/data handling, and supply-chain impact when supported

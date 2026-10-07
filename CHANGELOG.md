@@ -36,7 +36,7 @@
 - Detect Git worktrees from any supplied subdirectory and run Git-aware
   discovery from the worktree root while filtering results back to the requested
   directory.
-- Fail closed when raw filesystem discovery hits Clyde's path ceiling, instead
+- Fail closed when raw filesystem discovery hits clyde's path ceiling, instead
   of producing a silently truncated bundle.
 - Wire `bundle --allow-filesystem-fallback` through the options-aware scanner.
 - Publish bundles through a verified temporary directory swap so `--force`
@@ -59,7 +59,7 @@
   Git repository should be scanned without Git-aware discovery. The default
   remains fail-closed when Git discovery fails.
 - Bound raw filesystem candidate collection before sorting so non-Git traversal
-  stops at Clyde's path ceiling instead of collecting the whole tree.
+  stops at clyde's path ceiling instead of collecting the whole tree.
 - When a remote chunk upload succeeds but the local uploaded receipt write fails,
   attempt to persist the chunk as `ambiguous` and return an explicit
   remote-success/local-failure error.
@@ -82,7 +82,7 @@
 - Reject symlinked parent directories for bundle and receipt writes, and reject
   symlinks or non-regular files when reading bundles and receipts.
 - Reject symlinked parent directories during config initialization.
-- Run external secret scanners against a private snapshot of Clyde's captured
+- Run external secret scanners against a private snapshot of clyde's captured
   source bytes and record target/output evidence digests.
 - Record backend command, resolved executable path, executable digest when
   readable, package, and runtime identity in sync receipts.
@@ -132,12 +132,12 @@
 
 ## v0.2.5 - 2026-08-22
 
-- Add a complete, human-readable `TESTING.md` that documents the full Clyde
+- Add a complete, human-readable `TESTING.md` that documents the full clyde
   test suite, when to run each check, release verification, Windows coverage,
   and troubleshooting.
-- Add `help/testing.html` to the bundled Clyde help system with direct links to
-  the official Clyde homepage, public help site, and GitHub repository.
-- Add official PayCal Technologies, Clyde homepage, help, and GitHub references
+- Add `help/testing.html` to the bundled clyde help system with direct links to
+  the official clyde homepage, public help site, and GitHub repository.
+- Add official PayCal Technologies, clyde homepage, help, and GitHub references
   to the testing guide.
 
 ## v0.2.4 - 2026-08-22
@@ -188,13 +188,13 @@
 - Add GitHub Actions test workflow.
 - Add `about`, `completion`, and `help` command surfaces, including `clyde help --json`.
 - Add an AI-ready command catalog with access, network, syntax, and example metadata.
-- Add official PayCal Technologies, Clyde homepage, help, and GitHub links to CLI output and docs.
+- Add official PayCal Technologies, clyde homepage, help, and GitHub links to CLI output and docs.
 - Add focused hardening for config validation, config permissions, prompt input limits, scanner symlink handling, bounded Git discovery, bounded MCP/JSON-RPC/Ollama/subprocess I/O, safer numeric parsing, and redacted subprocess payload summaries.
 - Add shell completions for Bash, Zsh, and Fish.
 - Add example config and expanded tests for CLI behavior, config validation, scanner guards, MCP framing, JSON-RPC limits, Ollama limits, and NotebookLM subprocess handling.
 
 ## v0.1.0
 
-- Convert Clyde from a Python NotebookLM helper into a Go MCP/Ollama harness.
+- Convert clyde from a Python NotebookLM helper into a Go MCP/Ollama harness.
 - Preserve repository preview, bundle, NotebookLM sync, daemon/status, and book title commands.
 - Add local Ollama `models`, `ask`, and `agent` commands.

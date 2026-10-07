@@ -1,4 +1,4 @@
-# Clyde repository instructions
+# clyde repository instructions
 
 Read `README.md` and the relevant docs/source before changing behavior. Preserve
 pre-existing working-tree changes. This repo may contain another task's edits.

@@ -1,17 +1,17 @@
-# Clyde Testing Guide
+# clyde Testing Guide
 
-This document explains how to test Clyde locally, what the current tests cover,
+This document explains how to test clyde locally, what the current tests cover,
 and which checks should run before a pull request, release, or feature pass.
 
-Clyde is a small Go CLI for preparing auditable repository source bundles,
+clyde is a small Go CLI for preparing auditable repository source bundles,
 syncing approved context to NotebookLM, and asking local Ollama models for
 repo-aware feedback. Its tests focus on safety, predictable CLI behavior,
 bounded input/output, local-first defaults, and cross-platform portability.
 
 ## Official Resources
 
-- Clyde homepage: [paycaltech.com/clyde](https://paycaltech.com/clyde)
-- Clyde help: [paycaltech.com/clyde/help](https://paycaltech.com/clyde/help)
+- clyde homepage: [paycaltech.com/clyde](https://paycaltech.com/clyde)
+- clyde help: [paycaltech.com/clyde/help](https://paycaltech.com/clyde/help)
 - GitHub repository: [github.com/PayCal-Technologies/clyde](https://github.com/PayCal-Technologies/clyde)
 - Created by [PayCal Technologies](https://paycaltech.com/)
 
@@ -75,7 +75,7 @@ All tests currently live under `internal/clyde`.
 
 ## CI Test Matrix
 
-The GitHub Actions workflow is `.github/workflows/test.yml`. Clyde's GitHub
+The GitHub Actions workflow is `.github/workflows/test.yml`. clyde's GitHub
 organization uses a local-only Actions policy, so workflows must not use
 external `uses:` steps. Bootstrap checkout is inline, and post-checkout logic
 lives in `.github/scripts/`. The policy guard
@@ -119,7 +119,7 @@ Before changing GitHub workflows, read `.github/WORKFLOW_POLICY.md` and run:
 | Run fuzz smoke targets | `go test ./internal/clyde -run '^$' -fuzz=FuzzSplitTextPreservesUTF8 -fuzztime=5s` |
 | Check formatting | `gofmt -l $(find . -name '*.go')` |
 | Apply formatting | `gofmt -w $(find . -name '*.go')` |
-| Build Clyde | `go build -o bin/clyde ./cmd/clyde` |
+| Build clyde | `go build -o bin/clyde ./cmd/clyde` |
 | Smoke `--about` links | `go run ./cmd/clyde --about` |
 | Smoke JSON help catalog | `go run ./cmd/clyde help --json` |
 | Smoke repository scan report | `go run ./cmd/clyde scan-report . --json` |
@@ -130,7 +130,7 @@ Before changing GitHub workflows, read `.github/WORKFLOW_POLICY.md` and run:
 
 ### Repository Scanning
 
-Scanner tests verify that Clyde includes useful source files while skipping
+Scanner tests verify that clyde includes useful source files while skipping
 unsafe or noisy material.
 
 Covered behavior:
@@ -142,7 +142,7 @@ Covered behavior:
   `--allow-filesystem-fallback` is explicit;
 - Git worktrees are detected from requested subdirectories and repository-root
   exclusions are still honored;
-- raw filesystem discovery fails closed if Clyde's path ceiling is reached;
+- raw filesystem discovery fails closed if clyde's path ceiling is reached;
 - non-directory repo paths are rejected;
 - invalid file-size limits are rejected;
 - include globs may match no files without crashing.
@@ -201,7 +201,7 @@ go test ./internal/clyde -run 'Test.*Help|Test.*Doctor|Test.*Completion|TestPrev
 
 ### Configuration
 
-Config tests verify Clyde accepts predictable configuration and rejects unsafe
+Config tests verify clyde accepts predictable configuration and rejects unsafe
 or malformed values.
 
 Covered behavior:
@@ -251,7 +251,7 @@ go test ./internal/clyde -run 'TestOllama|TestCLIAsk|TestCLIModels|TestAgentReje
 
 ### NotebookLM, MCP, And JSON-RPC Boundaries
 
-These tests protect Clyde's external-process and protocol boundaries.
+These tests protect clyde's external-process and protocol boundaries.
 
 Covered behavior:
 
@@ -271,7 +271,7 @@ go test ./internal/clyde -run 'TestMCP|TestRPC|TestCommandSummary|TestRunCommand
 
 ### Agent Prompting
 
-Agent tests verify that Clyde builds useful bounded prompts for local models.
+Agent tests verify that clyde builds useful bounded prompts for local models.
 
 Covered behavior:
 
@@ -290,7 +290,7 @@ go test ./internal/clyde -run 'TestBuildAgentPrompt|TestPrioritizeAgentChunks|Te
 
 ## Cross-Platform Testing
 
-Clyde is intended to run on macOS, Linux, and Windows.
+clyde is intended to run on macOS, Linux, and Windows.
 
 CI runs tests on all three operating systems. Locally, you can at least
 cross-build:
@@ -328,7 +328,7 @@ Windows-specific notes:
 
 ## Release Verification
 
-Before publishing a Clyde release, run:
+Before publishing a clyde release, run:
 
 ```bash
 git status --short
@@ -407,7 +407,7 @@ Use this guide:
 
 Config tests fail with permission expectations:
 
-- Clyde rejects writable config files as a hardening measure. Preserve that
+- clyde rejects writable config files as a hardening measure. Preserve that
   unless the security model changes deliberately.
 
 Ollama tests fail:

@@ -8,13 +8,13 @@
   <rect x="54" y="54" width="1292" height="72" rx="28" fill="#17283a"/>
   <rect x="54" y="98" width="1292" height="28" fill="#17283a"/>
   <circle cx="96" cy="90" r="11" fill="#ff5f57"/><circle cx="132" cy="90" r="11" fill="#ffbd2e"/><circle cx="168" cy="90" r="11" fill="#28c840"/>
-  <text x="700" y="97" text-anchor="middle" fill="#b8ccdc" font-size="25" font-family="Arial, sans-serif" font-weight="700">Clyde local repository scan</text>
+  <text x="700" y="97" text-anchor="middle" fill="#b8ccdc" font-size="25" font-family="Arial, sans-serif" font-weight="700">clyde local repository scan</text>
   <rect x="1060" y="72" width="230" height="36" rx="18" fill="#0c3d62" stroke="#57b3ff" stroke-opacity="0.55"/>
   <text x="1175" y="97" text-anchor="middle" fill="#bde4ff" font-size="18" font-family="Arial, sans-serif" font-weight="700">MCP + Ollama ready</text>
   <g font-family="Monaco, Consolas, monospace" font-size="22" font-weight="500">
     <text x="88" y="172" fill="#35d0a3">paycal@local</text><text x="280" y="172" fill="#8fa8bb">:</text><text x="298" y="172" fill="#57b3ff">~/repo</text><text x="382" y="172" fill="#eaf6ff">$ clyde doctor; clyde scan-report --top 6</text>
-<text x="88" y="228" fill="#8fa8bb">Clyde doctor 1.0.0 (darwin/arm64)</text>
-<text x="88" y="262" fill="#4bd680">OK version: Clyde 1.0.0</text>
+<text x="88" y="228" fill="#8fa8bb">clyde doctor 1.0.0 (darwin/arm64)</text>
+<text x="88" y="262" fill="#4bd680">OK version: clyde 1.0.0</text>
 <text x="88" y="296" fill="#4bd680">OK platform: darwin/arm64</text>
 <text x="88" y="330" fill="#4bd680">OK config: loaded ~/Library/Application Support/clyde/config.json</text>
 <text x="88" y="364" fill="#4bd680">OK git: /usr/bin/git</text>

@@ -1,6 +1,6 @@
 ---
 name: Documentation
-about: Report missing or unclear Clyde docs
+about: Report missing or unclear clyde docs
 labels: documentation
 ---
 

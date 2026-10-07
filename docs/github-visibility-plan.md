@@ -1,6 +1,6 @@
-# Clyde GitHub Visibility Action Plan
+# clyde GitHub Visibility Action Plan
 
-This plan tracks the repository changes that make Clyde easier to discover,
+This plan tracks the repository changes that make clyde easier to discover,
 evaluate, trust, and share.
 
 ## Current Baseline
@@ -49,3 +49,14 @@ evaluate, trust, and share.
 
 For v1.0.0, the README, changelog, testing guide, examples, and bundled help
 were updated before tagging the release.
+
+## Documentation naming sweep — 2026-10-06
+
+Product display names use lowercase loom, nora, bram and clyde. The four tracked
+documentation trees, issue templates, textual help images and clyde manual were
+checked. Technical environment-variable names, Go identifiers and the loom
+LOOM-BEGIN/LOOM-END source markers retain their executable spelling. nora's
+tracked documentation already matched. This changes presentation only; existing
+release versions, behavior, feature/license promises and platform evidence remain
+applicable. clyde's manual generation/check, GitHub policy check and SVG XML
+validation passed. No new runtime release or installer change is claimed.

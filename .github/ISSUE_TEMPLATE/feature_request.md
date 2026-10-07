@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest a Clyde improvement
+about: Suggest a clyde improvement
 labels: enhancement
 ---
 

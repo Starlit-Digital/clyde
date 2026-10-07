@@ -1,4 +1,4 @@
-# Clyde
+# clyde
 
 [![Tests](https://github.com/PayCal-Technologies/clyde/actions/workflows/test.yml/badge.svg)](https://github.com/PayCal-Technologies/clyde/actions/workflows/test.yml)
 [![GitHub release](https://img.shields.io/github/v/release/PayCal-Technologies/clyde)](https://github.com/PayCal-Technologies/clyde/releases)
@@ -6,15 +6,15 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/PayCal-Technologies/clyde.svg)](https://pkg.go.dev/github.com/PayCal-Technologies/clyde)
 [![Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Linux%20%7C%20Windows-63b7ff)](#install)
 
-Clyde is a small Go MCP-client harness for moving auditable repository source bundles
+clyde is a small Go MCP-client harness for moving auditable repository source bundles
 into Google NotebookLM.
 
 Current version: `1.0.2`
 
 Official resources:
 
-- Clyde homepage: [paycaltech.com/clyde](https://paycaltech.com/clyde)
-- Clyde help: [paycaltech.com/clyde/help](https://paycaltech.com/clyde/help)
+- clyde homepage: [paycaltech.com/clyde](https://paycaltech.com/clyde)
+- clyde help: [paycaltech.com/clyde/help](https://paycaltech.com/clyde/help)
 - GitHub: [github.com/PayCal-Technologies/clyde](https://github.com/PayCal-Technologies/clyde)
 - Created by [PayCal Technologies](https://paycaltech.com)
 - Examples: [`examples/`](examples/)
@@ -23,7 +23,7 @@ Official resources:
 - Security reports: [`SECURITY.md`](SECURITY.md)
 - Terms and safety labels: [`docs/glossary.md`](docs/glossary.md)
 
-![Clyde terminal showing doctor diagnostics and repository scan report output](help/assets/clyde-terminal.svg)
+![clyde terminal showing doctor diagnostics and repository scan report output](help/assets/clyde-terminal.svg)
 
 It is intentionally conservative:
 
@@ -70,11 +70,11 @@ go test ./...
 
 ## Standard Release Procedure
 
-Use this procedure for every Clyde release and performance pass:
+Use this procedure for every clyde release and performance pass:
 
 1. Check `git status --short` first. Commit and push any unrelated pending work
    before starting a review.
-2. Run a targeted Clyde-on-Clyde review, such as:
+2. Run a targeted clyde-on-clyde review, such as:
 
    ```bash
    clyde agent . \
@@ -82,11 +82,11 @@ Use this procedure for every Clyde release and performance pass:
      --include "cmd/**/*.go" \
      --include "README.md" \
      --include "CHANGELOG.md" \
-     "Performance review for Clyde itself. Identify concrete optimizations worth implementing now."
+     "Performance review for clyde itself. Identify concrete optimizations worth implementing now."
    ```
 
 3. Implement only concrete, testable improvements. Record rejected suggestions
-   when they do not fit Clyde's CLI execution model.
+   when they do not fit clyde's CLI execution model.
 4. Run `gofmt`, `go test ./...`, `go test -race ./internal/clyde`,
    `go vet ./...`, `go run ./cmd/clyde --about`, and
    `go run ./cmd/clyde help --json`.
@@ -105,7 +105,7 @@ Use this procedure for every Clyde release and performance pass:
 ### Release archives (recommended)
 
 Download the archive matching your operating system and CPU from the
-[latest Clyde release](https://github.com/PayCal-Technologies/clyde/releases/latest).
+[latest clyde release](https://github.com/PayCal-Technologies/clyde/releases/latest).
 Each release has platform archives, `SHA256SUMS`, an SPDX SBOM, signed SLSA
 provenance, and a generated `clyde.1` manual page on macOS and Linux.
 
@@ -131,7 +131,7 @@ go install github.com/PayCal-Technologies/clyde/cmd/clyde@v1.0.2
 clyde --about
 ```
 
-Clyde is portable Go and is intended to run on Windows, macOS, and Linux.
+clyde is portable Go and is intended to run on Windows, macOS, and Linux.
 
 ## First Safe Run
 
@@ -164,12 +164,12 @@ Use these labels when choosing a command:
 - **Uploads repository chunks** commands require explicit approval.
 - **Deletes existing sources** requires the `nlm` backend and explicit approval.
 
-The full definitions are in the [Clyde glossary](docs/glossary.md). The normal
+The full definitions are in the [clyde glossary](docs/glossary.md). The normal
 workflow is **preview -> bundle -> verify -> dry run -> approve**.
 
 ## Usage
 
-Initialize Clyde's config file:
+Initialize clyde's config file:
 
 ```bash
 clyde config init
@@ -237,7 +237,7 @@ clyde doctor /path/to/repo
 clyde doctor /path/to/repo --json
 ```
 
-The diagnostic report covers Clyde's version, OS/architecture, config file
+The diagnostic report covers clyde's version, OS/architecture, config file
 status, PATH availability for Git, `npx`, and `nlm`, local Ollama reachability,
 and optional repository scan readiness. It does not upload source or modify
 local files.
@@ -250,15 +250,15 @@ clyde scan-report /path/to/repo --json
 clyde scan-report /path/to/repo --include "internal/**/*.go" --top 20
 ```
 
-`scan-report` is read-only and summarizes the shape of Clyde's repository scan:
+`scan-report` is read-only and summarizes the shape of clyde's repository scan:
 included/skipped counts, chunk count, largest included files, extension counts,
 skip reasons, and scan limits. Use the JSON form when an AI assistant or CI job
 needs compact repository-shape context without creating a bundle or uploading
 data.
 
-By default Clyde reads `~/.config/clyde/config.json`. Set `CLYDE_CONFIG` to use
+By default clyde reads `~/.config/clyde/config.json`. Set `CLYDE_CONFIG` to use
 a different file. CLI flags override environment variables, environment
-variables override the config file, and the config file overrides Clyde's built
+variables override the config file, and the config file overrides clyde's built
 in v0.2 defaults. A copyable example lives at `examples/config.json`.
 
 Example config:
@@ -285,7 +285,7 @@ Configuration reference:
 | `num_ctx` | Context window sent to Ollama generation requests. | `8192` |
 | `ask_timeout_seconds` | Timeout for direct `ask` requests. | `120` |
 | `agent_timeout_seconds` | Timeout for repo-scanning `agent` requests. | `180` |
-| `max_context_chars` | Maximum direct prompt/context size Clyde will prepare. | `16000` |
+| `max_context_chars` | Maximum direct prompt/context size clyde will prepare. | `16000` |
 | `max_file_bytes` | Per-file source scanning cap. | `250000` |
 | `max_chunk_chars` | Source bundle chunk size for NotebookLM upload records. | `18000` |
 | `exclude_folders` | Optional additional folder names or relative folder paths to skip during repository scans. Omit it for the basic behavior-only config. | none |
@@ -294,7 +294,7 @@ Omitted or zero numeric config values are replaced with defaults. String values
 are trimmed. Negative numeric values, blank model names, NUL bytes, invalid
 Ollama URLs, and oversized limits are rejected during config load.
 `CLYDE_OLLAMA_URL` and `CLYDE_MODEL` override the file and are validated the
-same way. `CLYDE_CONFIG` points Clyde at an alternate config file.
+same way. `CLYDE_CONFIG` points clyde at an alternate config file.
 
 Preview a repo:
 
@@ -320,7 +320,7 @@ Machine-readable preview:
 clyde preview /path/to/repo --json
 ```
 
-Clyde supports JSON and GCF (Graph Compact Format) for structured context:
+clyde supports JSON and GCF (Graph Compact Format) for structured context:
 
 ```bash
 clyde scan-report . --format auto          # smaller compact JSON or GCF
@@ -349,12 +349,12 @@ Ollama accepts GCF as prompt text. NotebookLM accepts pasted text and `.txt`
 sources, but does not document `.gcf` file support or GCF-specific interpretation.
 See [GCF support and compatibility](docs/gcf.md) for research sources and details.
 
-In Git repositories, Clyde uses `git ls-files -co --exclude-standard` from the
+In Git repositories, clyde uses `git ls-files -co --exclude-standard` from the
 worktree root so `.gitignore` and standard Git exclusions are honored even when
-you scan a subdirectory. If Git discovery fails, Clyde stops instead of falling
+you scan a subdirectory. If Git discovery fails, clyde stops instead of falling
 back to a raw filesystem walk. Use `--allow-filesystem-fallback` only when you
 intentionally accept that `.gitignore` may not be honored. Raw filesystem
-discovery fails closed if Clyde reaches its path ceiling.
+discovery fails closed if clyde reaches its path ceiling.
 
 Create a local bundle:
 
@@ -371,7 +371,7 @@ clyde bundle /path/to/repo \
   --secret-scan-command "gitleaks detect --no-git --source {repo}"
 ```
 
-`{repo}` and `{bundle}` expand to a private temporary snapshot of Clyde's
+`{repo}` and `{bundle}` expand to a private temporary snapshot of clyde's
 captured source bytes, not the live working tree. The manifest records the
 scanner command plus target and output digests so the scan evidence is bound to
 the reviewed bundle.
@@ -385,7 +385,7 @@ clyde bundle verify .clyde/out
 Plan a dated NotebookLM book name:
 
 ```bash
-clyde book "Clyde self feedback"
+clyde book "clyde self feedback"
 ```
 
 List local Ollama models:
@@ -408,7 +408,7 @@ clyde ask --model qwen2.5-coder:7b --prompt-file prompt.md
 cat prompt.md | clyde ask --model qwen2.5-coder:7b --stdin
 ```
 
-Ask Clyde's local feedback agent to scan a repo and request guidance from the
+Ask clyde's local feedback agent to scan a repo and request guidance from the
 local model:
 
 ```bash
@@ -417,7 +417,7 @@ clyde agent . \
   "Review this MCP harness for missing tests and design risks"
 ```
 
-For source-scanning `agent` runs, Clyde treats local Ollama as the safe default.
+For source-scanning `agent` runs, clyde treats local Ollama as the safe default.
 If the configured Ollama URL, `--ollama-url`, or `CLYDE_OLLAMA_URL` points away
 from localhost, `agent` refuses to send repository context unless
 `--allow-remote-ollama` is present. This keeps local feedback from accidentally
@@ -437,7 +437,7 @@ Model selection order is:
 
 1. `--model`
 2. `CLYDE_MODEL`
-3. `model` in Clyde's config file
+3. `model` in clyde's config file
 4. the first model returned by Ollama
 
 Run `clyde` with no arguments in a terminal to open the basic terminal UI. You
@@ -485,21 +485,21 @@ never uploads, deletes sources, or writes a receipt. With `--backend nlm
 --delete-existing-sources`, it also lists the exact current NotebookLM sources
 that a real sync would delete.
 
-During sync, Clyde prints the current phase immediately and repeats a simple
+During sync, clyde prints the current phase immediately and repeats a simple
 "still working" update every five seconds during long scans, bundle checks, and
 backend calls. Use `--heartbeat-interval SECONDS` to adjust that cadence, or
 `--quiet-progress` to suppress terminal progress lines.
 
 `sync --bundle` verifies `manifest.json`, `chunks.jsonl`, per-chunk digests, and
 the overall bundle digest before upload. This is the auditable source-transfer
-path: the digest you approve is bound to the exact chunk content Clyde sends.
+path: the digest you approve is bound to the exact chunk content clyde sends.
 Bundle sync writes `.clyde/out/sync-receipt.json` by default. The receipt records
 the bundle digest, destination, backend command, resolved executable, executable
 digest when readable, backend version when available, runtime/environment
 contract, chunk digests, returned source IDs where available, upload status,
-timestamps, and failure state. Clyde records each chunk as `pending` before
+timestamps, and failure state. clyde records each chunk as `pending` before
 upload. If the remote upload succeeds but the local uploaded receipt write fails,
-Clyde attempts to mark the chunk `ambiguous` and refuses automatic resume until
+clyde attempts to mark the chunk `ambiguous` and refuses automatic resume until
 the remote source is reconciled or a new receipt is deliberately started.
 
 Resume a partially completed bundle sync:
@@ -513,7 +513,7 @@ clyde sync --bundle .clyde/out \
 ```
 
 Inspect a receipt after an interrupted sync. When the receipt is beside its
-matching bundle, Clyde prints a ready-to-run resume command:
+matching bundle, clyde prints a ready-to-run resume command:
 
 ```bash
 clyde receipt status .clyde/out/sync-receipt.json
@@ -526,10 +526,10 @@ npx -y notebooklm-mcp@2.0.0
 ```
 
 with `NOTEBOOKLM_TRANSPORT=stdio`, `NOTEBOOKLM_PROFILE=all`, and destructive
-NotebookLM tools disabled. Clyde passes a small allowlisted environment to this
+NotebookLM tools disabled. clyde passes a small allowlisted environment to this
 process instead of forwarding all parent credentials.
 
-For faster upload sessions, Clyde can also use the `nlm` CLI from
+For faster upload sessions, clyde can also use the `nlm` CLI from
 `notebooklm-mcp-cli`:
 
 ```bash
@@ -553,7 +553,7 @@ clyde sync --bundle .clyde/out \
 ```
 
 That deletion is intentional and permanent for the target NotebookLM notebook.
-`--delete-existing-sources` requires a receipt. Clyde records the pre-delete
+`--delete-existing-sources` requires a receipt. clyde records the pre-delete
 source inventory before deletion and marks those entries deleted only after the
 delete command succeeds. If deletion is interrupted, resume reconciles the
 planned IDs against the current remote source list, marks already-missing
@@ -572,7 +572,7 @@ clyde sync /path/to/repo \
 
 ## Status Daemon
 
-Clyde includes a localhost-only JSON-RPC status daemon:
+clyde includes a localhost-only JSON-RPC status daemon:
 
 ```bash
 clyde daemon
@@ -589,24 +589,24 @@ The daemon refuses non-localhost bind addresses.
 
 ## Security Notes
 
-Clyde is a transfer harness, not a security boundary. Review generated
+clyde is a transfer harness, not a security boundary. Review generated
 `manifest.json`, run `clyde bundle verify`, and approve the printed digest before
 upload. Use a dedicated Google account and a private NotebookLM notebook. Do not
 upload secrets, production records, customer data, tokens, credentials, browser
 state, or private keys.
 
-Clyde also applies several guardrails before data leaves the local machine:
+clyde also applies several guardrails before data leaves the local machine:
 
 - `agent` refuses non-local Ollama URLs unless `--allow-remote-ollama` is set.
-- Git repositories fail closed if Git-aware discovery fails; Clyde does not
+- Git repositories fail closed if Git-aware discovery fails; clyde does not
   silently fall back to a raw filesystem walk that ignores `.gitignore`.
   `--allow-filesystem-fallback` makes that fallback explicit. Git worktrees are
   detected from subdirectories, and raw filesystem discovery fails closed if it
-  hits Clyde's path ceiling.
+  hits clyde's path ceiling.
 - Repo scans skip symlinks, non-regular files, binary files, likely secrets,
   built-in dependency/build/cache folders, any configured excluded folders, and
   files larger than `max_file_bytes`.
-- Clyde rejects symlinked parent directories for config, bundle, and receipt
+- clyde rejects symlinked parent directories for config, bundle, and receipt
   writes, and rejects symlinks or non-regular files when reading bundles and
   receipts.
 - Bundle manifests record discovery provenance and secret-scan evidence when
@@ -614,7 +614,7 @@ Clyde also applies several guardrails before data leaves the local machine:
   digest from reconstructed source content.
 - CLI duration, context, port, URL, and backend command flags are validated
   before network or process work starts.
-- Clyde-written config files use private file permissions, and Clyde rejects
+- clyde-written config files use private file permissions, and clyde rejects
   group- or world-writable config files.
 - MCP responses have a maximum frame size to avoid accidental large allocation.
 - MCP request/response operations are serialized, and MCP subprocess cleanup
@@ -625,11 +625,11 @@ Clyde also applies several guardrails before data leaves the local machine:
 - Subprocess timeout/error summaries redact large `--text` payloads before they
   are printed or stored in status events.
 
-## What Clyde Does Not Do
+## What clyde Does Not Do
 
-- Clyde does not sandbox commands or model runtimes.
-- Clyde does not guarantee that scanned source is safe to upload.
-- Clyde does not create or delete Google notebooks.
-- Clyde does not replace code review, CI, or secret scanning.
-- Clyde does not expose an MCP server yet; it currently acts as an MCP client
+- clyde does not sandbox commands or model runtimes.
+- clyde does not guarantee that scanned source is safe to upload.
+- clyde does not create or delete Google notebooks.
+- clyde does not replace code review, CI, or secret scanning.
+- clyde does not expose an MCP server yet; it currently acts as an MCP client
   and local model harness.

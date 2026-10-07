@@ -1,8 +1,8 @@
-# Clyde Glossary
+# clyde Glossary
 
 ## Preview
 
-A read-only report of the files Clyde would include and skip. It does not write,
+A read-only report of the files clyde would include and skip. It does not write,
 upload, or contact a backend.
 
 ## Bundle
@@ -12,7 +12,7 @@ written before any upload so its exact contents can be inspected and verified.
 
 ## Digest
 
-A `sha256:` identifier bound to one exact bundle. Clyde requires that digest at
+A `sha256:` identifier bound to one exact bundle. clyde requires that digest at
 upload approval, preventing a reviewed bundle from being substituted later.
 
 ## Dry run
@@ -22,7 +22,7 @@ write. Use it before any real sync.
 
 ## Approval
 
-The explicit `--approve-upload` flag required before Clyde can upload repository
+The explicit `--approve-upload` flag required before clyde can upload repository
 chunks. It is separate from choosing a destination and approving a bundle digest.
 
 ## Receipt
@@ -32,7 +32,7 @@ IDs. A receipt supports inspection and safe resume when a transfer is interrupte
 
 ## Backend
 
-The local integration Clyde uses to communicate with NotebookLM. The default MCP
+The local integration clyde uses to communicate with NotebookLM. The default MCP
 backend runs locally; the `nlm` backend is required for operations that delete
 existing NotebookLM sources.
 

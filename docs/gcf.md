@@ -2,18 +2,18 @@
 
 Research checked 2026-10-05.
 
-Clyde uses Graph Compact Format (GCF) from Blackwell Systems, an UTF-8,
+clyde uses Graph Compact Format (GCF) from Blackwell Systems, an UTF-8,
 line-oriented format for structured data. Its generic profile represents the
 JSON data model; tabular arrays declare fields once and use positional rows.
-The graph profile represents symbols and edges. Clyde uses the generic profile
+The graph profile represents symbols and edges. clyde uses the generic profile
 because its scan reports and source chunks are records, not a code graph.
 
 Implementation: pinned `github.com/blackwell-systems/gcf-go v1.8.0`, which has no
-transitive runtime dependencies. Clyde marshals through its existing JSON field
+transitive runtime dependencies. clyde marshals through its existing JSON field
 names and uses the SDK's ordered JSON parser and checked encoder to preserve
 integer precision, nulls, array ordering, escaping, and deterministic output.
 Nested-field flattening is disabled, following the SDK's guidance for open-weight
-models. GCF is an optional representation; token savings for Clyde's source text
+models. GCF is an optional representation; token savings for clyde's source text
 have not been measured. Escaping multiline code can add overhead.
 
 ## Automatic defaults and commands
@@ -47,7 +47,7 @@ Both report formats contain the same fields.
 
 The agent retains its instructions and task as prose, followed by a structured
 payload containing repository metadata and prioritized source chunks. Its
-`--max-context-chars` budget is measured in UTF-8 bytes, as in Clyde's existing
+`--max-context-chars` budget is measured in UTF-8 bytes, as in clyde's existing
 prompt code. The complete JSON/GCF-mode prompt fits the budget. Source prefixes
 are shortened before encoding; wire syntax is never cut. `context_truncated`
 marks omitted context and `text_truncated` marks a shortened source chunk.
@@ -64,7 +64,7 @@ clyde gcf stats report.json --json
 ```
 
 `encode` and `stats` read JSON; `decode` reads GCF. A missing filename or `-` reads
-stdin. These commands run locally, independently of Clyde's configuration, and
+stdin. These commands run locally, independently of clyde's configuration, and
 write to stdout. File inputs must be regular files; input is limited to 1 MiB.
 JSON conversion rejects duplicate object keys, trailing values/garbage, invalid
 UTF-8, nesting beyond 256 levels, and numbers outside GCF's numeric domain.
@@ -82,10 +82,10 @@ writer failures, and dry-run network avoidance.
 
 ## Ollama compatibility
 
-Ollama's generate API accepts a string `prompt`, so Clyde can send GCF inside
+Ollama's generate API accepts a string `prompt`, so clyde can send GCF inside
 that text using the existing JSON HTTP request. GCF is not an Ollama transport
 format or a documented structured-output mode: the `format` option supports
-`json` or a JSON schema. Clyde does not set `format` to `gcf`.
+`json` or a JSON schema. clyde does not set `format` to `gcf`.
 
 The acceptance of text establishes transport compatibility, not model
 comprehension. Understanding depends on the selected model. Tests verify that
@@ -100,7 +100,7 @@ for an exported GCF report is pasted text or a `.txt` file. Accepting that text
 does not establish GCF-aware parsing, retrieval, or reliable field interpretation.
 No live NotebookLM import or comprehension test was performed.
 
-Clyde's current MCP and `nlm` backends submit source content as text. These features
+clyde's current MCP and `nlm` backends submit source content as text. These features
 provide structured reports, local conversion, and automatic agent context; bundle persistence, digest approval,
 and sync payloads retain their existing representation. A future GCF sync option
 would need to bind the exact encoded upload bytes to bundle approval and receipts.

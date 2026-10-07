@@ -1,6 +1,6 @@
-# Clyde GitHub Workflow Policy
+# clyde GitHub Workflow Policy
 
-Clyde's GitHub organization requires local-only Actions execution. Workflows in
+clyde's GitHub organization requires local-only Actions execution. Workflows in
 this repository must therefore stay fully under repository control.
 
 Rules for every workflow:

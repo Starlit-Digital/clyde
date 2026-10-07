@@ -4,7 +4,7 @@
   <rect x="0" y="0" width="1292" height="72" rx="28" fill="#17283a"/>
   <rect x="0" y="44" width="1292" height="28" fill="#17283a"/>
   <circle cx="42" cy="36" r="11" fill="#ff5f57"/><circle cx="78" cy="36" r="11" fill="#ffbd2e"/><circle cx="114" cy="36" r="11" fill="#28c840"/>
-  <text x="646" y="43" text-anchor="middle" fill="#c1d3e2" font-size="25" font-family="Arial, sans-serif" font-weight="700">Clyde terminal UI</text>
+  <text x="646" y="43" text-anchor="middle" fill="#c1d3e2" font-size="25" font-family="Arial, sans-serif" font-weight="700">clyde terminal UI</text>
   <rect x="992" y="18" width="244" height="36" rx="18" fill="#0c3d62" stroke="#57b3ff" stroke-opacity="0.55"/>
   <text x="1114" y="43" text-anchor="middle" fill="#bde4ff" font-size="18" font-family="Arial, sans-serif" font-weight="700">interactive local workflow</text>
   <g font-family="Monaco, Consolas, monospace" font-size="24" font-weight="500">
@@ -12,7 +12,7 @@
     <text x="220" y="112" fill="#9ab2c5"> : </text>
     <text x="245" y="112" fill="#57b3ff">~/repo</text>
     <text x="340" y="112" fill="#eaf6ff">$ clyde tui</text>
-    <text x="34" y="180" fill="#57b3ff">Clyde TUI</text>
+    <text x="34" y="180" fill="#57b3ff">clyde TUI</text>
     <text x="164.5" y="180" fill="#9ab2c5">  local repository assistant</text>
     <text x="34" y="214" fill="#9ab2c5">------------------------------------------------------------</text>
     <text x="34" y="248" fill="#4bd680">Model</text>

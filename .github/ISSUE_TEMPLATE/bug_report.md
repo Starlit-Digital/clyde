@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report incorrect Clyde behavior
+about: Report incorrect clyde behavior
 labels: bug
 ---
 
@@ -14,7 +14,7 @@ labels: bug
 
 ## Environment
 
-- Clyde version:
+- clyde version:
 - OS:
 - Shell:
 - Go version, if building from source:

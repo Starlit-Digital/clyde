@@ -1,6 +1,6 @@
-# Clyde Examples
+# clyde Examples
 
-Copy these examples when evaluating Clyde locally or wiring it into an
+Copy these examples when evaluating clyde locally or wiring it into an
 AI-assisted repository workflow.
 
 ## First Run
@@ -30,7 +30,7 @@ clyde agent . \
   "Review command safety, input validation, and missing tests."
 ```
 
-Clyde keeps `agent` local by default. Remote Ollama endpoints require explicit
+clyde keeps `agent` local by default. Remote Ollama endpoints require explicit
 approval with `--allow-remote-ollama`.
 
 ## Reviewable Bundle

@@ -1,6 +1,6 @@
-# Contributing to Clyde
+# Contributing to clyde
 
-Clyde is an open-source local-first CLI under the 0BSD license. Contributions
+clyde is an open-source local-first CLI under the 0BSD license. Contributions
 are welcome when they keep repository review auditable, bounded, and useful for
 both humans and automation.
 
