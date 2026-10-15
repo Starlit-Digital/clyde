@@ -112,3 +112,10 @@ would need to bind the exact encoded upload bytes to bundle approval and receipt
 - [Ollama generate API](https://docs.ollama.com/api/generate)
 - [Ollama API schema](https://github.com/ollama/ollama/blob/main/docs/openapi.yaml)
 - [Google's supported notebook source types](https://support.google.com/gemininotebook/answer/16215270)
+
+## Shared graph contracts — 2026-10-15
+
+The optional `tools graph` protocol uses versioned JSON wire contracts, including
+context packets. It does not change the native JSON/generic-GCF encoder, agent
+prompt defaults, bundle digests or upload approvals. Source excerpts are bounded
+before JSON encoding. See [graph workflows](GRAPH_WORKFLOWS.md).

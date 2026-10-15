@@ -1,0 +1,36 @@
+name: Graph contracts
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  graph:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout source
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git init .
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin "${GITHUB_SHA}"
+          git checkout --detach FETCH_HEAD
+          git remote remove origin
+      - name: Check Go
+        shell: bash
+        run: .github/scripts/install-go.sh
+      - name: Shared protocol and native recovery
+        run: go test -count=1 -timeout=180s ./internal/toolbridge
+      - name: Race detection
+        if: runner.os != 'Windows'
+        run: go test -race -count=1 -timeout=180s ./internal/toolbridge
+      - name: Native CLI discovery
+        run: |
+          go run ./cmd/clyde tools graph capabilities
+          go run ./cmd/clyde tools graph schema --kind workflow
+          go run ./cmd/clyde tools complete -- graph context --stage v
