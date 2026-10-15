@@ -2,6 +2,8 @@
 
 ## v1.2.0 — 2026-10-15
 
+- Build with Go 1.26.9 to satisfy the release standard-library vulnerability gate.
+
 - Track declared tool configuration, runtimes, SDK identity files and environment in graph fingerprints.
 - Add shell completion hooks and shared protocol/native recovery checks on macOS, Windows and Linux.
 
