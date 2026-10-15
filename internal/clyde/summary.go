@@ -40,10 +40,6 @@ func printSummary(out io.Writer, result ScanResult, chunkCount int, flags scanFl
 	}
 }
 
-func printPreviewJSON(out io.Writer, result ScanResult, chunkCount int, flags scanFlags) error {
-	return printStructured(out, previewData(result, chunkCount, flags), false)
-}
-
 func previewData(result ScanResult, chunkCount int, flags scanFlags) map[string]any {
 	files := make([]map[string]any, 0, len(result.Files))
 	for _, file := range result.Files {
