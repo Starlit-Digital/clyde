@@ -13,11 +13,11 @@ const (
 	productName        = "Clyde"
 	productVersion     = "1.2.0"
 	productDescription = "local repository review, bundling, and NotebookLM sync harness"
-	productHomeURL     = "https://paycaltech.com/clyde"
-	productHelpURL     = "https://paycaltech.com/clyde/help"
-	productGitHubURL   = "https://github.com/PayCal-Technologies/clyde"
-	productCreator     = "PayCal Technologies"
-	productCreatorURL  = "https://paycaltech.com"
+	productHomeURL     = "https://sltd.ca/clyde/"
+	productHelpURL     = "https://sltd.ca/clyde/help/"
+	productGitHubURL   = "https://github.com/Starlit-Digital/clyde"
+	productCreator     = "Starlit Digital"
+	productCreatorURL  = "https://sltd.ca/"
 )
 
 const maxCLISeconds = 24 * 60 * 60

@@ -1,7 +1,7 @@
 # clyde
 
-[![Tests](https://github.com/PayCal-Technologies/clyde/actions/workflows/test.yml/badge.svg)](https://github.com/PayCal-Technologies/clyde/actions/workflows/test.yml)
-[![GitHub release](https://img.shields.io/github/v/release/PayCal-Technologies/clyde)](https://github.com/PayCal-Technologies/clyde/releases)
+[![Tests](https://github.com/Starlit-Digital/clyde/actions/workflows/test.yml/badge.svg)](https://github.com/Starlit-Digital/clyde/actions/workflows/test.yml)
+[![GitHub release](https://img.shields.io/github/v/release/Starlit-Digital/clyde)](https://github.com/Starlit-Digital/clyde/releases)
 [![License: 0BSD](https://img.shields.io/badge/license-0BSD-blue.svg)](LICENSE)
 [![Go Reference](https://pkg.go.dev/badge/github.com/PayCal-Technologies/clyde.svg)](https://pkg.go.dev/github.com/PayCal-Technologies/clyde)
 [![Platforms](https://img.shields.io/badge/platforms-macOS%20%7C%20Linux%20%7C%20Windows-63b7ff)](#install)
@@ -13,10 +13,10 @@ Current version: `1.2.0`
 
 Official resources:
 
-- clyde homepage: [paycaltech.com/clyde](https://paycaltech.com/clyde)
-- clyde help: [paycaltech.com/clyde/help](https://paycaltech.com/clyde/help)
-- GitHub: [github.com/PayCal-Technologies/clyde](https://github.com/PayCal-Technologies/clyde)
-- Created by [PayCal Technologies](https://paycaltech.com)
+- clyde homepage: [sltd.ca/clyde](https://sltd.ca/clyde)
+- clyde help: [sltd.ca/clyde/help](https://sltd.ca/clyde/help)
+- GitHub: [github.com/PayCal-Technologies/clyde](https://github.com/Starlit-Digital/clyde)
+- Created by [Starlit Digital](https://sltd.ca/)
 - Examples: [`examples/`](examples/)
 - Testing guide: [`TESTING.md`](TESTING.md)
 - Contributing: [`CONTRIBUTING.md`](CONTRIBUTING.md)
@@ -105,7 +105,7 @@ Use this procedure for every clyde release and performance pass:
 ### Release archives (recommended)
 
 Download the archive matching your operating system and CPU from the
-[latest clyde release](https://github.com/PayCal-Technologies/clyde/releases/latest).
+[latest clyde release](https://github.com/Starlit-Digital/clyde/releases/latest).
 Each release has platform archives, `SHA256SUMS`, an SPDX SBOM, signed SLSA
 provenance, and a generated `clyde.1` manual page on macOS and Linux.
 
@@ -645,3 +645,10 @@ plans, checkpointed execution, selective resume and evidence verification.
 Execution uses exact approved argument arrays; optional AI diagnosis is advisory.
 Goshi retains its self-only diagnostic boundary.
 [Contracts and usage](docs/GRAPH_WORKFLOWS.md).
+
+
+## Website, October 21, 2026
+
+Clyde now uses https://sltd.ca/clyde/ and its `/help/` command
+reference. Former PayCal Technologies website paths have been removed without
+redirects. This documentation update does not publish or install a native release.
