@@ -13,7 +13,7 @@ bounded input/output, local-first defaults, and cross-platform portability.
 - clyde homepage: [sltd.ca/clyde](https://sltd.ca/clyde)
 - clyde help: [sltd.ca/clyde/help](https://sltd.ca/clyde/help)
 - GitHub repository: [github.com/PayCal-Technologies/clyde](https://github.com/Starlit-Digital/clyde)
-- Created by [Starlit Digital](https://sltd.ca/)
+- Created by [Starlight Digital](https://sltd.ca/)
 
 ## Quick Start
 

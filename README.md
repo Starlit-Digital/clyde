@@ -16,7 +16,7 @@ Official resources:
 - clyde homepage: [sltd.ca/clyde](https://sltd.ca/clyde)
 - clyde help: [sltd.ca/clyde/help](https://sltd.ca/clyde/help)
 - GitHub: [github.com/PayCal-Technologies/clyde](https://github.com/Starlit-Digital/clyde)
-- Created by [Starlit Digital](https://sltd.ca/)
+- Created by [Starlight Digital](https://sltd.ca/)
 - Examples: [`examples/`](examples/)
 - Testing guide: [`TESTING.md`](TESTING.md)
 - Contributing: [`CONTRIBUTING.md`](CONTRIBUTING.md)
